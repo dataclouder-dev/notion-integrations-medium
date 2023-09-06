@@ -1,17 +1,44 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 
+import * as notion from "./integrations/notion";
 import * as medium from "./integrations/medium";
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = 8000;
 
 app.get("/", async (req: Request, res: Response) => {
-  medium.testConnection();
-  res.send("Express + TypeScript Server");
+  const dbEntries = await notion.getLatestEntries();
+
+  type ExportMediumResult = {db: string, title?: string, mediumUrl: string};
+
+  const userId = await medium.getMediumUserId();
+  const results: ExportMediumResult[] = [];
+
+  for (const dbID of Object.keys(dbEntries)) {
+    console.log(`Processing ${dbID}` );
+    
+    for (const entry of dbEntries[dbID]) {
+
+      console.log(`Processing ${entry}` );
+      const notionHtmlPage = await notion.getHtmlPage(entry.public_url as string);
+
+      const postResult = await medium.createStory(userId,
+        notionHtmlPage.title as string,
+        notionHtmlPage.html,
+        ["Dataclouder"]
+      );
+
+      results.push({db: dbID, title: notionHtmlPage.title, mediumUrl: postResult.url});
+    };
+  }
+  
+  res.send(results);
 });
+
+
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

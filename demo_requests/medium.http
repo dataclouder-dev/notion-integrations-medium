@@ -1,0 +1,33 @@
+# @mediumToken = 2d04....f8
+
+
+GET https://api.medium.com/v1/me 
+Authorization: Bearer {{mediumToken}}
+Content-Type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+###
+
+GET https://api.medium.com/v1/users/1230e24d6e38ca33f1ae6873ec4d8e3d5fc9c26aa0b7f1b58839aa16fee53f89e/publications
+Authorization: Bearer {{mediumToken}}
+Content-Type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+
+###
+POST api.medium.com/v1/users/1230e24d6e38ca33f1ae6873ec4d8e3d5fc9c26aa0b7f1b58839aa16fee53f89e/posts
+Authorization: Bearer {{mediumToken}}
+Content-Type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+{
+  "title": "Liverpool FC",
+  "contentFormat": "html",
+  "content": "<h1>Liverpool FC</h1><p>You’ll never walk alone.</p>",
+  "canonicalUrl": "http://jamietalbot.com/posts/liverpool-fc",
+  "tags": ["football", "sport", "Liverpool"],
+  "publishStatus": "public"
+}
