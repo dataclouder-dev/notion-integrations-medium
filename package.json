@@ -7,10 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx tsc -p tsconfig.cloud.json",
     "start": "npx tsc & node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q --inspect dist/index.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy-function": "gcloud functions deploy app --trigger-http --allow-unauthenticated --runtime nodejs20"
   },
   "author": "adamofig",
   "license": "ISC",

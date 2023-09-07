@@ -6,8 +6,7 @@ import * as medium from "./integrations/medium";
 
 dotenv.config();
 
-const app: Express = express();
-const port = 8000;
+export const app: Express = express();
 
 app.get("/", async (req: Request, res: Response) => {
   const dbEntries = await notion.getLatestEntries();
@@ -36,10 +35,4 @@ app.get("/", async (req: Request, res: Response) => {
   }
   
   res.send(results);
-});
-
-
-
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
