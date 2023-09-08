@@ -1,1 +1,10 @@
-Pending to update documentation
+### How to deploy GCP. 
+
+Other options
+
+you can create a docker file  and upload to your favorite provider. 
+
+### Stratey to export new articles. 
+
+Basic option is to export new by times, but sometimes you have a draft and maybe you don't want articule to be exported. 
+so we should export base on option. date 
