@@ -18,7 +18,7 @@ app.get("/", async (req: Request, res: Response) => {
   for (const dbID of Object.keys(dbEntries)) {
     console.log(`Processing ${dbID}`);
 
-    if(dbEntries[dbID].length === 0) {
+    if (dbEntries[dbID].length === 0) {
       results.push({ description: `No entries to export`, db: dbID });
     }
 
@@ -27,7 +27,13 @@ app.get("/", async (req: Request, res: Response) => {
       try {
         const notionHtmlPage = await notion.getHtmlPage(entry.public_url as string);
 
-        const postResult = await medium.createStory(userId, notionHtmlPage.title as string, notionHtmlPage.html, ["Dataclouder"]);
+        const postResult = await medium.createStory(
+          userId,
+          notionHtmlPage.title as string,
+          entry.public_url as string,
+          notionHtmlPage.html,
+          ["Dataclouder"]
+        );
         results.push({
           description: `Story was published ${postResult.publishStatus}`,
           db: dbID,
@@ -35,7 +41,7 @@ app.get("/", async (req: Request, res: Response) => {
           mediumUrl: postResult.url,
         });
       } catch (e) {
-        results.push({ description: `Error ${entry.title} - ${e}` });
+        results.push({ description: `Error ${entry.public_url} - ${e}` });
       }
     }
   }
@@ -43,8 +49,3 @@ app.get("/", async (req: Request, res: Response) => {
   res.send(results);
 });
 
-app.get("/test", async (req: Request, res: Response) => {
-  console.log("Getting medium user id");
-  notion.initPropertiesIsNeeded("1262c9f128f149108ece1d0916eb39c4");
-  res.send("working");
-});
