@@ -12,18 +12,9 @@ export async function getMediumUserId(): Promise<string> {
   return response.data.data.id;
 }
 
-export async function createStory(
-  userId: string,
-  title: string,
-  content: string,
-  canonicalUrl: string = "",
-  tags: string[]
-): Promise<MediumStoryResponse> {
-  canonicalUrl: ""; // set notion public page.
 
-  console.log("Creating story...");
-  const story: MediumStory = { title, content, canonicalUrl, tags, publishStatus: "public", contentFormat: "html" };
-
+export async function createStory(userId: string, story: MediumStory): Promise<MediumStoryResponse> {
+  console.log(`Creating story ${story.title}`);
   const response = await axios.post(`https://api.medium.com/v1/users/${userId}/posts`, story, { headers: get_headers() });
 
   return response.data.data;

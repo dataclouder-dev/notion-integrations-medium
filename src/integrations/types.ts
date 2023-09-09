@@ -1,6 +1,6 @@
 import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export type ExportMediumResult = { db?: string; title?: string; mediumUrl?: string, description?: string };
+export type ExportMediumResult = { exported: boolean, db?: string; title?: string; mediumUrl?: string, description?: string };
 
 export type DbEntries = { [key: string]: DatabaseObjectResponse[] };
 
@@ -30,3 +30,11 @@ export type MediumStory = {
     license?: string;
     notifyFollowers?: boolean;
   };
+
+export enum MediumStatus {
+    Draft = "Draft",
+    Ready = "Ready",
+    Published = "Published"
+}
+
+export type ExportResults = { [key: string]: ExportMediumResult[] };

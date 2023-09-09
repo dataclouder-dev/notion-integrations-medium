@@ -1,6 +1,6 @@
 {
   "name": "notionintegrations",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "integrate usefull notion events with medium and other platforms",
   "main": "index.js",
   "directories": {
