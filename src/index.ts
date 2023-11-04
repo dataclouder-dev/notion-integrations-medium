@@ -3,13 +3,37 @@ import dotenv from "dotenv";
 
 import * as notion from "./integrations/notion";
 import * as medium from "./integrations/medium";
+import * as ssml from "./integrations/ssml";
+import * as gSpeech from "./integrations/googleTextToSpeach";
+
+
 import { ExportResults, MediumStory } from "./integrations/types";
 
 dotenv.config();
 
 export const app: Express = express();
 
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
+  res.send("<ol> <li> Notion </li> </ol>");
+});
+
+app.get("/speech", async (req: Request, res: Response) => {
+  // const data =  await gSpeech.callListVoices();
+  gSpeech.quickStart();
+  // res.send(data);
+
+  // gSpeech.quickStart();
+
+});
+
+app.get("/ssml", async (req: Request, res: Response) => {
+  // notion.getHtmlPage()
+  const ssmlText = await ssml.getSsmlFromPage("09461e7d0cd14c388a01338130f0fee8");
+  res.send(ssmlText);
+});
+
+
+app.get("/notion", async (req: Request, res: Response) => {
 
   const dbEntries = await notion.getEntriesReady();
 
@@ -18,9 +42,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 
   for (const dbID of Object.keys(dbEntries)) {
-
     results[dbID] = [];
-    
     console.log(`Processing ${dbID}`);
 
     if (dbEntries[dbID].length === 0) {
@@ -58,6 +80,10 @@ app.get("/", async (req: Request, res: Response) => {
       }
     }
   }
+
+  app.get("/ssml", (req: Request, res: Response) => {
+    res.send("<ol> <li> Notion </li> </ol>");
+  });
 
   res.send(results);
 });

@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { BlockObjectResponse, DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { NotionPage } from "notion-page-to-html/dist/main/use-cases/notion-api-to-html";
 
 import NotionPageToHtml from "notion-page-to-html";
@@ -26,6 +26,14 @@ export async function getEntriesReady(): Promise<DbEntries> {
   }
 
   return dbEntries;
+}
+
+export async function getPageBlocks(pageId: string): promise<BlockObjectResponse[]>{
+  console.log("process.env.NOTION_KEY", process.env.NOTION_KEY);
+  const notionClient = new Client({ auth: process.env.NOTION_KEY });
+  // const page = await notionClient.pages.retrieve({ page_id: id });
+  const blocks = await notionClient.blocks.children.list({ block_id: pageId });
+  return blocks.results as BlockObjectResponse[];
 }
 
 export async function initPropertiesIsNeeded(dbId: string): Promise<void> {
