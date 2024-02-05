@@ -28,7 +28,7 @@ export async function getEntriesReady(): Promise<DbEntries> {
   return dbEntries;
 }
 
-export async function getPageBlocks(pageId: string): promise<BlockObjectResponse[]>{
+export async function getPageBlocks(pageId: string): Promise<BlockObjectResponse[]>{
   console.log("process.env.NOTION_KEY", process.env.NOTION_KEY);
   const notionClient = new Client({ auth: process.env.NOTION_KEY });
   // const page = await notionClient.pages.retrieve({ page_id: id });
